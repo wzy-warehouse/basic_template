@@ -123,14 +123,14 @@ basic_template
 
 ### 项目克隆
 ```bash
-git clone https://github.com/wzyzxl/thesis_management_system.git
-cd thesis_management_system
+git clone https://github.com/wzy-warehouse/basic_template.git
+cd basic_template
 ```
 
 ### 后端启动
 1. 导入`sql`目录下的数据库脚本
 2. 修改`application.yml`配置数据库、Redis 连接信息
-3. 运行`ThesisManagementSystemApplication.java`启动类
+3. 运行`BasicTemplateApplication.java`启动类
 
 ### 前端启动
 ```bash
