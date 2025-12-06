@@ -1,0 +1,8 @@
+{
+  "backendBaseUrl": "http://localhost:8080",
+  "apiBaseUrl": "/api",
+  "rememberMeKey": "thesis_management_system.rememberPassword",
+  "rememberMeTokenKey": "thesis_management_system.rememberToken",
+  "noEncryptUrls": ["/crypto/sm2/public-key", "/paper/upload", "/paper/chat"],
+  "noTokenUrls": ["/crypto/sm2/public-key", "/user/login"]
+}

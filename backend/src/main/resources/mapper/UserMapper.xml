@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.basic.template.mapper.UserMapper">
+    <resultMap id="UserMapperMap" type="com.basic.template.entity.User">
+        <id column="id" property="id"/>
+        <result column="create_time" property="createTime" javaType="java.time.LocalDateTime"/>
+        <result column="update_time" property="updateTime" javaType="java.time.LocalDateTime"/>
+    </resultMap>
+
+    <select id="findByUsername" resultMap="UserMapperMap">
+        SELECT id, username, salt, password, create_time, update_time FROM `user`
+        <where>
+            username = #{username}
+        </where>
+    </select>
+</mapper>
