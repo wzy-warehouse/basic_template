@@ -4,8 +4,16 @@ server:
 
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/basic_template?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+    # mysql配置
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/basic_template?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8
+#    username: basic_template
+#    password: 123456
+#    type: com.alibaba.druid.pool.DruidDataSource
+
+    #postgresql
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/basic_template?characterEncoding=utf8&TimeZone=Asia/Shanghai
     username: basic_template
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
@@ -53,6 +61,8 @@ mybatis:
   type-aliases-package: com.laboratory.paper.entity
   configuration:
     map-underscore-to-camel-case: true
+    # 开启 databaseId 识别
+    database-id: postgresql   # 如果是Mysql，这里修改为mysql即可
 
 # Sa-Token 配置
 sa-token:

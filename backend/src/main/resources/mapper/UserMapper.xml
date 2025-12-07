@@ -9,8 +9,17 @@
         <result column="update_time" property="updateTime" javaType="java.time.LocalDateTime"/>
     </resultMap>
 
-    <select id="findByUsername" resultMap="UserMapperMap">
+    <!-- MySQL 版本 -->
+    <select id="findByUsername" resultMap="UserMapperMap" databaseId="mysql">
         SELECT id, username, salt, password, create_time, update_time FROM `user`
+        <where>
+            username = #{username}
+        </where>
+    </select>
+
+    <!-- PostgreSQL 版本 -->
+    <select id="findByUsername" resultMap="UserMapperMap" databaseId="postgresql">
+        SELECT id, username, salt, password, create_time, update_time FROM "user"
         <where>
             username = #{username}
         </where>

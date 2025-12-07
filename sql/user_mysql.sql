@@ -5,13 +5,13 @@
  Source Server Type    : MySQL
  Source Server Version : 80043 (8.0.43)
  Source Host           : localhost:3306
- Source Schema         : thesis_system
+ Source Schema         : basic_template
 
  Target Server Type    : MySQL
  Target Server Version : 80043 (8.0.43)
  File Encoding         : 65001
 
- Date: 06/12/2025 13:10:53
+ Date: 07/12/2025 13:31:57
 */
 
 SET NAMES utf8mb4;
@@ -30,7 +30,7 @@ CREATE TABLE `user`  (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_username`(`username` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user
