@@ -40,11 +40,6 @@ spring:
         url-pattern: /druid/*
         login-username: admin
         login-password: admin
-  servlet:
-    multipart:
-      max-file-size: 10MB  # 单个文件最大大小
-      max-request-size: 200MB  # 单次请求总文件最大大小
-      enabled: true  # 启用文件上传支持
 
   # redis
   data:
