@@ -108,8 +108,9 @@ basic_template
 │   │   │       └── UserLogin.vue
 │   │   ├── App.vue
 │   │   └── main.ts
-├── sql                                                                     # sql文件（Mysql）
-│   └── user.sql
+├── sql                                                                     # sql文件
+│   └── user_mysql.sql
+│   └── user_pg.sql
 ├── LICENSE                                                                 # 许可证
 └── README.md                                                               # 介绍文件
 ```
