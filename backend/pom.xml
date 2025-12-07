@@ -16,7 +16,6 @@
         <druid.version>1.2.27</druid.version>
         <mysql.version>8.2.0</mysql.version>
         <postgresql.version>42.7.8</postgresql.version>
-        <postgresql.version>42.7.7</postgresql.version>
         <lombok.version>1.18.42</lombok.version>
         <sa-token.version>1.44.0</sa-token.version>
         <sa-token-redis-template.version>1.44.0</sa-token-redis-template.version>
@@ -79,6 +78,7 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- postgresql驱动 -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
