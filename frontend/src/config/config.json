@@ -3,6 +3,8 @@
   "apiBaseUrl": "/api",
   "rememberMeKey": "thesis_management_system.rememberPassword",
   "rememberMeTokenKey": "thesis_management_system.rememberToken",
-  "noEncryptUrls": ["/crypto/sm2/public-key", "/paper/upload", "/paper/chat"],
-  "noTokenUrls": ["/crypto/sm2/public-key", "/user/login"]
+  "noEncryptUrls": ["/crypto/sm2/public-key"],
+  "noTokenUrls": ["/crypto/sm2/public-key", "/user/login"],
+  "tdMapToken": "fc6cb1139b8eed4f79439130eb34eb00",
+  "cesiumIonDefaultAccessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI1ZDBjZjAxOS0wMDhhLTRmZjEtYjNmOC1iNmM2ZmY2ZmQ1N2IiLCJpZCI6MjAxMDI1LCJpYXQiOjE3MTAxNTgxNjJ9.mdbJYEzXQkBnHNqpozz7MvZjJ_X9a3JZRGPA-ytGhLI"
 }
