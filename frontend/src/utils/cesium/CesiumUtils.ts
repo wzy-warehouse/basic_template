@@ -94,7 +94,7 @@ export const CesiumUtils = {
    * @param type - 底图类型：0 - 天地图「影像底图 + 影像注记」其他 - 天地图「纯矢量底图」（无注记）
    * @returns Viewer 实例
    */
-  initCesiumViewer: (options: CesiumInitOptions, tdMapToken?: string, type: number = 0): Viewer => {
+  initCesiumViewer: (options: CesiumInitOptions, tdMapToken?: string[], type: number = 0): Viewer => {
     // 使用Cesium官方示例中的Token
     Ion.defaultAccessToken = config.cesiumIonDefaultAccessToken
 
@@ -170,7 +170,7 @@ export const CesiumUtils = {
    * @param tdMapToken - 天地图token
    * @returns ImageryProvider 实例
    */
-  imageryProvider: (type: number, tdMapToken: string): ImageryProvider[] => {
+  imageryProvider: (type: number, tdMapToken: string[]): ImageryProvider[] => {
     const option = {
       tileMatrixSetID: 'w',
       format: 'tiles',
@@ -181,14 +181,17 @@ export const CesiumUtils = {
       subdomains: ['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'],
     }
     if (type === 0) {
+      // 当前token
+      const currentTokenIndex = Math.floor(Math.random() * tdMapToken.length)
+
       const imageryProvider = new WebMapTileServiceImageryProvider({
-        url: `https://{s}.tianditu.gov.cn/img_w/wmts?tk=${tdMapToken}`,
+        url: `https://{s}.tianditu.gov.cn/img_w/wmts?tk=${tdMapToken[currentTokenIndex]}`,
         layer: 'img',
         ...option,
       })
 
       const annotationProvider = new WebMapTileServiceImageryProvider({
-        url: `https://{s}.tianditu.gov.cn/cia_w/wmts?tk=${tdMapToken}`,
+        url: `https://{s}.tianditu.gov.cn/cia_w/wmts?tk=${tdMapToken[currentTokenIndex]}`,
         layer: 'cia',
         ...option,
       })
@@ -362,7 +365,6 @@ export const CesiumUtils = {
     duration = 2,
   ): void => {
     const position = convertPosition(target)
-    console.log(position, Cartographic.fromCartesian(position))
     viewer.camera.flyTo({
       destination: Cartesian3.fromDegrees(
         (Cartographic.fromCartesian(position).longitude * 180) / Math.PI,
