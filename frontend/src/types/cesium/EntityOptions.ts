@@ -7,7 +7,7 @@ import type { Cartesian3, Color } from "cesium"
 export interface EntityOptions {
   id: string // 实体唯一标识（必填，用于后续查询/删除）
   position: Cartesian3 | [number, number, number] // 位置（经纬度高程数组 或 Cartesian3）
-  type: 'point' | 'polyline' | 'billboard' // 实体类型
+  type: 'point' | 'polyline' | 'billboard' | 'polygon' // 实体类型
   // 点配置（type='point' 时必填）
   pointOptions?: {
     color?: Color // 颜色（默认：红色）
@@ -29,6 +29,17 @@ export interface EntityOptions {
     color?: Color // 颜色（默认：白色）
     verticalOrigin?: number // 垂直对齐方式（默认：CENTER）
     horizontalOrigin?: number // 水平对齐方式（默认：CENTER）
+  }
+  // 面配置（type='polygon' 时必填）
+  polygonOptions?: {
+    hierarchy: Cartesian3[] | [number, number, number][]  // 面顶点数组
+    color?: Color // 颜色（默认：绿色）
+    outline?: boolean // 是否显示轮廓（默认：true）
+    outlineColor?: Color // 轮廓颜色（默认：黑色）
+    outlineWidth?: number // 轮廓宽度（默认：1）
+    height?: number // 高度（默认：0）
+    extrudedHeight?: number //  extrudedHeight 高度（默认：0）
+    perPositionHeight?: boolean // 是否每个顶点高度不同（默认：true）
   }
   attributes?: Record<string, unknown> // 自定义属性（用于存储额外信息）
 }
