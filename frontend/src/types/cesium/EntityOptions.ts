@@ -8,6 +8,7 @@ export interface EntityOptions {
   id: string // 实体唯一标识（必填，用于后续查询/删除）
   position: Cartesian3 | [number, number, number] // 位置（经纬度高程数组 或 Cartesian3）
   type: 'point' | 'polyline' | 'billboard' | 'polygon' // 实体类型
+  default?: boolean // 是否是默认的实体，默认值false
   // 点配置（type='point' 时必填）
   pointOptions?: {
     color?: Color // 颜色（默认：红色）
