@@ -1,13 +1,14 @@
 package com.basic.template.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
+import com.basic.template.domain.ApiResponse;
+import com.basic.template.domain.user.CreateResponse;
+import com.basic.template.domain.user.GenerateCaptchaResponse;
+import com.basic.template.domain.user.LoginResponse;
 import com.basic.template.entity.User;
 import com.basic.template.mapper.UserMapper;
 import com.basic.template.service.UserService;
 import com.basic.template.vo.user.ChangePasswordVo;
-import com.basic.template.domain.user.CreateResponse;
-import com.basic.template.domain.user.LoginResponse;
-import com.basic.template.domain.ApiResponse;
 import com.basic.template.vo.user.UserVo;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
@@ -33,6 +34,11 @@ public class UserController extends BaseController{
 
     @Value("${login.remember.redis.key.prefix}")
     private String rememberKeyPrefix;
+
+    @GetMapping("/generate-captcha")
+    private ApiResponse<GenerateCaptchaResponse> generateCaptcha(@RequestParam(value = "width") Integer width) {
+        return ApiResponse.ok(userService.generateCaptcha(width));
+    }
 
     @PostMapping("/login")
     public ApiResponse<LoginResponse> login(@RequestBody @Valid UserVo user) {

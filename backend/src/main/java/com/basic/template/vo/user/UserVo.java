@@ -23,5 +23,8 @@ public class UserVo implements Serializable {
     message = "密码格式不正确，密码需至少包含数字、字母、特殊字符(!@#$%^&*()_+;)中的两类")
     private String password;
 
+    private String uuid;
+    private Boolean includeCaptcha;
+    private String captcha;
     private Boolean remember;
 }

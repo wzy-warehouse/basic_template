@@ -18,12 +18,13 @@ public class SaTokenConfig implements WebMvcConfigurer {
         }))
         .addPathPatterns("/**") // 拦截所有接口
         .excludePathPatterns(
-                // 匿名访问路径
-                "/user/login",
-                "/user/check-login",
-                "/user/check-remember",
-                "/user/auto-login",
-                "/crypto/sm2/public-key"
+            // 匿名访问路径
+            "/user/generate-captcha",
+            "/user/login",
+            "/user/check-login",
+            "/user/check-remember",
+            "/user/auto-login",
+            "/crypto/sm2/public-key"
         );
     }
 }
