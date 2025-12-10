@@ -5,6 +5,7 @@ import {
   checkLogin,
   checkRemember,
   create as createUser,
+  generateCaptcha,
   login,
 } from './user'
 import type { changePasswordRequest } from '@/types/user/ChangePasswordRequest'
@@ -14,6 +15,9 @@ import { getSm2PublicKey } from './crypto'
 export const $api = {
   // 用户模块
   user: {
+    // 获取验证码
+    generateCaptcha: (width: number) => generateCaptcha(width),
+
     // 登录
     login: (loginData: LoginRequest) => login(loginData),
 

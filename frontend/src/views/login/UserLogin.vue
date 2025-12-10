@@ -12,6 +12,22 @@
             <el-input v-model="loginForm.password" placeholder="密码" type="password" />
           </el-form-item>
 
+          <el-form-item prop="captcha" v-if="includeCaptcha">
+            <el-row style="width: 100%">
+              <el-col :span="18">
+                <el-input v-model="loginForm.captcha" placeholder="验证码" type="text" />
+              </el-col>
+              <el-col :span="6">
+                <img
+                  :src="captchaUrl"
+                  ref="captchaRef"
+                  class="captcha-img"
+                  @click="updateCaptcha"
+                />
+              </el-col>
+            </el-row>
+          </el-form-item>
+
           <el-form-item prop="remember">
             <el-checkbox v-model="loginForm.remember">记住密码(7天)</el-checkbox>
           </el-form-item>
@@ -26,19 +42,31 @@
 </template>
 <script name="UserLogin" setup lang="ts">
 import type { LoginRequest } from '@/types/user/LoginRequest'
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, type Ref, ref } from 'vue'
 import { useLoginValidator } from '@/hooks/user/useLoginValidator'
 import type { ElForm } from 'element-plus'
 import { $api } from '@/api/api'
-import { useRoute, useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/useUserStore'
 import { ElMessage } from 'element-plus'
 import config from '@/config/config.json'
+import { useLogin } from '../../hooks/user/useLogin'
+import { useRoute, useRouter } from 'vue-router'
+
+// 包含验证码
+const includeCaptcha = config.includeCaptcha
+
+// 验证码图片路径
+const captchaUrl: Ref<string> = ref('')
+// 验证码
+const captchaRef = ref<HTMLDivElement>()
 
 // 表单数据
 const loginForm: LoginRequest = reactive({
   username: 'admin',
   password: 'admin@123',
+  includeCaptcha: includeCaptcha,
+  captcha: '',
+  uuid: '',
   remember: false,
 })
 
@@ -49,23 +77,11 @@ const loginFormRef = ref<InstanceType<typeof ElForm>>()
 const router = useRouter()
 const route = useRoute()
 
+// 从当前登录页的URL中获取redirect参数
+const redirect: Ref<string> = ref('');
+
 // 用户pinia
 const userStore = useUserStore()
-
-// 获取跳转路径
-const getRedirectPath = () => {
-  // 从当前登录页的URL中获取redirect参数（需解码，因为路由跳转时可能用了encodeURIComponent）
-  const redirect = route.query.redirect as string
-  const decodedRedirect = redirect ? decodeURIComponent(redirect) : ''
-
-  // 安全校验：只允许内部路径（避免跳转到外部网站）
-  if (decodedRedirect && decodedRedirect.startsWith('/')) {
-    return decodedRedirect
-  }
-  // 无有效redirect参数时，默认跳首页
-  return '/home'
-}
-
 // 登录处理
 const handleLogin = async () => {
   const isValid = await loginFormRef.value?.validate()
@@ -87,7 +103,7 @@ const handleLogin = async () => {
       localStorage.removeItem(config.rememberMeTokenKey)
     }
 
-    router.push(getRedirectPath())
+    router.push(useLogin.getRedirectPath(redirect.value))
   } catch (error) {
     ElMessage.error(`登录失败，${error}`)
   }
@@ -95,45 +111,28 @@ const handleLogin = async () => {
 
 // 页面挂载时执行登录状态判断
 onMounted(async () => {
-  try {
-    // 检查当前是否已登录（sa-token判断）
-    const loginStatusRes = await $api.user.checkLogin()
-    if (loginStatusRes.data) {
-      router.push(getRedirectPath())
-      return
-    }
+  redirect.value = route.query.redirect as string
+  console.log('检查登录状态', redirect)
+  // 检查登录状态
+  await useLogin.checkLogin(redirect.value, router)
 
-    // 未登录，检查是否有"记住密码"标记
-    const isRemembered = localStorage.getItem(config.rememberMeKey) === 'true'
-    if (!isRemembered) {
-      return
-    }
-
-    // 有记住密码标记，检查上次登录是否过期
-    const token = localStorage.getItem(config.rememberMeTokenKey)
-    if (!token) {
-      return
-    }
-    const rememberStatusRes = await $api.user.checkRemember(token)
-    if (!rememberStatusRes.data) {
-      localStorage.removeItem(config.rememberMeKey)
-      return
-    }
-
-    // 记住登录未过期，自动恢复登录状态
-    const autoLoginRes = await $api.user.autoLogin(token)
-    if (autoLoginRes.data) {
-      // 更新pinia存储
-      userStore.token = autoLoginRes.data.token
-      userStore.username = autoLoginRes.data.user.username
-      userStore.id = autoLoginRes.data.user.id
-      userStore.isLogin = true
-      router.push(getRedirectPath())
-    }
-  } catch (error) {
-    ElMessage.error(`登录状态检查失败，${error}`)
+  // 获取验证码
+  if (includeCaptcha) {
+    $api.user.generateCaptcha(150).then((res) => {
+      loginForm.uuid = res.data.uuid
+      captchaUrl.value = res.data.captcha
+    })
   }
 })
+
+// 更新验证码
+const updateCaptcha = () => {
+  if (!captchaRef.value) return
+  $api.user.generateCaptcha(captchaRef.value?.clientWidth).then((res) => {
+    loginForm.uuid = res.data.uuid
+    captchaUrl.value = res.data.captcha
+  })
+}
 </script>
 <style scoped>
 .login-bg {
@@ -179,5 +178,12 @@ onMounted(async () => {
 .form-bg .form-box .login-btn {
   display: block;
   width: 100%;
+}
+
+.captcha-img {
+  height: calc(var(--el-input-height, 32px) - 2px);
+  padding-left: 20px;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 </style>

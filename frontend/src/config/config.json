@@ -1,10 +1,11 @@
 {
   "backendBaseUrl": "http://localhost:8080",
   "apiBaseUrl": "/api",
+  "includeCaptcha": true,
   "rememberMeKey": "thesis_management_system.rememberPassword",
   "rememberMeTokenKey": "thesis_management_system.rememberToken",
   "noEncryptUrls": ["/crypto/sm2/public-key"],
-  "noTokenUrls": ["/crypto/sm2/public-key", "/user/login"],
+  "noTokenUrls": ["/crypto/sm2/public-key", "/user/login", "/user/generate-captcha"],
   "tdMapToken": [
     "fc6cb1139b8eed4f79439130eb34eb00", 
     "78234e018ed03fe3bb28de976dcfa6d3", 

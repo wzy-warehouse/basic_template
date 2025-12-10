@@ -32,4 +32,18 @@ export const useLoginValidator = {
       trigger: 'blur',
     },
   ],
+  // 验证码
+  captcha: [
+    {
+      required: true,
+      message: '验证码不能为空。',
+      trigger: 'blur',
+    },
+    {
+      min: 4,
+      max: 4,
+      message: '验证码长度必须是4',
+      trigger: 'blur',
+    },
+  ]
 }

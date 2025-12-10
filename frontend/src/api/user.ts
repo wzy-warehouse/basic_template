@@ -2,9 +2,21 @@ import type { Response } from '@/types/Response'
 import type { changePasswordRequest } from '@/types/user/ChangePasswordRequest'
 import type { CreateUserRequest } from '@/types/user/CreateUserRequest'
 import type { CreateUserResponse } from '@/types/user/CreateUserResponse'
+import type { GenerateCaptchaResponse } from '@/types/user/GenerteCaptchaResponse'
 import type { LoginRequest } from '@/types/user/LoginRequest'
 import type { LoginResponse } from '@/types/user/LoginResponse'
 import httpInstance from '@/utils/request/http'
+
+/**
+ * 获取验证码
+ */
+export const generateCaptcha = (width: number): Promise<Response<GenerateCaptchaResponse>> => {
+  return httpInstance.get('/user/generate-captcha', {
+    params: {
+      width,
+    },
+  })
+}
 
 /**
  * 登录
